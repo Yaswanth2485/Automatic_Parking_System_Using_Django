@@ -1,0 +1,376 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Search | Admin Panel</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-color: #333;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Navigation Styles */
+        .topnav {
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .topnav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .topnav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .topnav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .topnav a:hover::after {
+            width: 100%;
+        }
+
+        .topnav a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .topnav a.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .toplg {
+            color: #f2f2f2;
+            font-weight: 600;
+        }
+
+        /* Search Container */
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .search-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .search-form {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+        }
+
+        .search-button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Vehicle Card Styles */
+        .vehicle-results {
+            max-width: 800px;
+            margin: 1rem auto;
+        }
+
+        .vehicle-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .vehicle-card h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #f1f1f1;
+            padding-bottom: 0.5rem;
+        }
+
+        .vehicle-card p {
+            margin: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .vehicle-card .card-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .card-button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .print-button {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .delete-button {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes loading {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--secondary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: loading 1s linear infinite;
+            margin: 2rem auto;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .topnav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .topnav-links {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .search-input, .search-button {
+                width: 100%;
+                border-radius: 5px;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="topnav">
+        <div class="topnav-links">
+            <a href="/adminpage/">Admin Home</a>
+            <a href='/searchingveh/' class="active">Search Vehicle</a>
+            <a href='/view_users/'>Edit Users</a>
+            <a href="/adminlogin/">Logout</a>
+        </div>
+        <div class="toplg">Admin View</div>
+    </div>
+    <div style="text-align: center; color: red">
+        <h1> {{ message }} </h1>
+    </div>
+    <div class="search-container">
+        
+        <div class="search-header">
+            <h1>Vehicle Information Search</h1>
+            <p>Search vehicles by vehicle number or details</p>
+        </div>
+
+        <form class="search-form" method="GET" action="{% url 'search_vehicle' %}">
+            <input 
+                type="text" 
+                name="query" 
+                class="search-input" 
+                placeholder="Enter vehicle number" 
+                value="{{ query|default:'' }}"
+            >
+            <button type="submit" class="search-button">Search</button>
+            
+        </form>
+    </div>
+    
+    <div class="loading-spinner" id="loadingSpinner"></div>
+
+    <div class="vehicle-results">
+        {% if query %}
+            {% if obj %}
+                {% if obj|length > 0 %}
+                    {% for vehicle in obj %}
+                        <div class="vehicle-card" id="vehicle-card-{{ vehicle.vnumber }}">
+                            <h2>Vehicle Details</h2>
+                            <p><strong>Vehicle Number:</strong> {{ vehicle.vnumber }}</p>
+                            <p><strong>Vehicle Type:</strong> {{ vehicle.vtype }}</p>
+                            <p><strong>Contact Number:</strong> {{ vehicle.contactno }}</p>
+                            <p><strong>Space Allotted:</strong> {{ vehicle.spacealloted }}</p>
+                            <p><strong>Floor Allotted:</strong> {{ vehicle.flooralloted }}</p>
+                            <p><strong>Tag Number:</strong> {{ vehicle.tagno }}</p>
+                            
+                            <div class="card-actions">
+                                <button 
+                                    class="card-button print-button" 
+                                    onclick="printVehicleInfo('vehicle-card-{{ vehicle.vnumber }}')"
+                                >
+                                    Print Details
+                                </button>
+                                <a 
+                                    href="{% url 'delete_vehicle' vehicle.tagno %}" 
+                                    class="card-button delete-button" 
+                                    onclick="return confirmDelete(event)"
+                                >
+                                    Delete Vehicle
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-results">
+                        <p>No vehicle found for "{{ query }}".</p>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="no-results">
+                    <p>No vehicle found for "{{ query }}".</p>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="no-results">
+                <p>Enter a vehicle number to begin searching.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForm = document.querySelector('.search-form');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+
+            searchForm.addEventListener('submit', function() {
+                loadingSpinner.style.display = 'block';
+                setTimeout(() => {
+                    loadingSpinner.style.display = 'none';
+                }, 2000);
+            });
+        });
+
+        function printVehicleInfo(cardId) {
+            const card = document.getElementById(cardId);
+            if (card) {
+                const printWindow = window.open('', '', 'width=800,height=600');
+                printWindow.document.write(`
+                    <html>
+                    <head>
+                        <title>Vehicle Information</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+                            h2 { color: #3498db; border-bottom: 2px solid #f1f1f1; padding-bottom: 10px; }
+                            p { margin: 10px 0; display: flex; justify-content: space-between; }
+                        </style>
+                    </head>
+                    <body>
+                        ${card.innerHTML}
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+                printWindow.print();
+            } else {
+                alert("Vehicle card not found.");
+            }
+        }
+
+        function confirmDelete(event) {
+            if (!confirm('Are you sure you want to delete this vehicle?')) {
+                event.preventDefault();
+            }
+        }
+    </script>
+</body>
+</html>

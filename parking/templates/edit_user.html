@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User Details</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-color: #333;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .form-container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 15px;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            width: 100%;
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 280px;
+        }
+
+        label {
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #555;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="password"],
+        textarea,
+        select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="date"]:focus,
+        input[type="password"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--secondary-color);
+        }
+
+        button {
+            width: auto;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background-color: var(--secondary-color);
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin: 0 auto;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-bottom: 8px;
+            width: 100%;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-container">
+        <h1>Edit User Details</h1>
+        
+        <div class="form-group">
+            <label for="fname">First Name:</label>
+            <input type="text" id="fname" name="fname" value="{{ user.fname }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="lname">Last Name:</label>
+            <input type="text" id="lname" name="lname" value="{{ user.lname }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ user.email }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="contact_number">Contact Number:</label>
+            <input type="phone" id="contact_number" name="contact_number" value="{{ user.contactnumber }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="{{ user.username }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" value="{{ user.password }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="passwordr">Confirm Password:</label>
+            <input type="password" id="passwordr" name="passwordr" value="{{ user.passwordr }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" value="{{ user.dob }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Gender:</label>
+            <div style="display: flex; gap: 8px;">
+                <label><input type="radio" name="gender" value="male" {% if user.gender == 'male' %} checked {% endif %}> Male</label>
+                <label><input type="radio" name="gender" value="female" {% if user.gender == 'female' %} checked {% endif %}> Female</label>
+                <label><input type="radio" name="gender" value="other" {% if user.gender == 'other' %} checked {% endif %}> Other</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="ques">Security Question:</label>
+            <select id="ques" name="ques">
+                <option value="book" {% if user.ques == 'book' %} selected {% endif %}>What is your favorite book?</option>
+                <option value="pet" {% if user.ques == 'pet' %} selected {% endif %}>What is the name of your first pet?</option>
+                <option value="city" {% if user.ques == 'city' %} selected {% endif %}>What city were you born in?</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="answer">Answer:</label>
+            <input type="text" id="answer" name="answer" value="{{ user.answer }}" required>
+        </div>
+
+        <div class="form-group" style="flex-basis: 100%;">
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" required>{{ user.addressfor }}</textarea>
+        </div>
+
+        <div class="error" id="error-message"></div>
+
+        <div class="form-group" style="flex-basis: 100%;">
+            <button type="submit">Update Details</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    function validateForm() {
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const contactNumber = document.getElementById('contact_number').value;
+        const password = document.getElementById('password').value;
+        const address = document.getElementById('address').value;
+        let errorMessage = '';
+
+        if (!username || !email || !contactNumber || !password || !address) {
+            errorMessage = 'Please fill out all fields.';
+        }
+
+        if (errorMessage) {
+            document.getElementById('error-message').innerText = errorMessage;
+            return false;
+        }
+        return true;
+    }
+</script>
+
+</body>
+</html>

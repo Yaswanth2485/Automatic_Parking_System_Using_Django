@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Admin | Dashboard</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-color: #333;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--secondary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: loading 1s linear infinite;
+        }
+
+        @keyframes loading {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Navigation Styles */
+        .topnav {
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            box-shadow: var(--card-shadow);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .topnav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .topnav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .topnav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .topnav a:hover::after {
+            width: 100%;
+        }
+
+        .topnav a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .topnav a.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .toplg {
+            color: #f2f2f2;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.5s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centers content horizontally */
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center; /* Centers items horizontally */
+            justify-content: center; /* Centers items vertically */
+        }
+
+        .button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: all 0.6s;
+        }
+
+        .button:hover::after {
+            left: 100%;
+        }
+
+        .container h4 {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .topnav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .topnav-links {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loader">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="topnav">
+        <div class="topnav-links">
+            <a href="/adminpage/">Admin Home</a>
+            <a href="/searchingveh/">Search</a>
+            <a href="/view_users/">Edit User</a>
+            <a href="/adminlogin/" class="active">Logout</a>
+        </div>
+        <div class="toplg">Admin View is Active</div>
+    </div>
+
+    <div class="container">
+        <h2>Welcome, Admin!</h2>
+
+        <div class="button-container">
+            <form action="/printcomplaint/" method="get">
+                <button class="button" type="submit">View Complaints</button>
+            </form>
+
+            <form action="/printcontact/" method="get">
+                <button class="button" type="submit">View Contact</button>
+            </form>
+
+            <form action="/printvehicles/" method="get">
+                <button class="button" type="submit">Vehicles List</button>
+            </form>
+        </div>
+
+        <h4>This page is for admin use only. Please log out if not in use.</h4>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loader = document.getElementById('loader');
+            
+            // Remove loader after page load
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    loader.style.visibility = 'hidden';
+                }, 500);
+            });
+
+            // Button hover effects
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'translateY(-3px)';
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

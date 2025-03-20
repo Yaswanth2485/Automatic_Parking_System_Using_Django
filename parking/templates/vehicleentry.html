@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* Root Variables */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --background-color: #ecf0f1;
+    --text-color: #333;
+    --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    --glass-background: rgba(255, 255, 255, 0.2);
+    --glass-border: rgba(255, 255, 255, 0.5);
+}
+
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: flex-start;
+    padding: 1rem 2rem;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    align-items: center; /* Ensures vertical centering */
+}
+
+.topnav a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.topnav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -3px;
+    left: 0;
+    background-color: var(--secondary-color);
+    transition: width 0.3s ease;
+}
+
+.topnav a:hover::after {
+    width: 100%;
+}
+
+.topnav a:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.topnav a.active {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.topnav .logged-in {
+    position: absolute;
+    top: 50%; /* Vertically center */
+    right: 20px; 
+    transform: translateY(-50%); /* Adjust the vertical alignment */
+    font-size: 18px;
+    color: white;
+}
+
+.bg-image {
+    background-image: url("https://i.ibb.co/vV7yZDR/vehicleentry.jpg");
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    height: 94%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Glassy Card Styles */
+.bg-text {
+    background-color: var(--glass-background);
+    border: 2px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    font-weight: bold;
+    font-family: "Helvetica", Times, serif;
+    color: white;
+    border-radius: 20px;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 40%;
+    padding: 25px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    animation: fadeIn 1.5s ease-in-out; /* Adding fade-in animation to the card */
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Input field styles with animations */
+input, select {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    width: 90%;
+    height: 40px;
+    color: #333;
+    padding: 0 15px;
+    margin: 20px 5px; /* Increased space between fields */
+    border: 1px solid #ccc;
+    transition: all 0.3s ease; /* Smooth animation */
+    font-size: 14px;
+}
+
+input:focus, select:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 5px var(--secondary-color);
+    background-color: #ffffff; /* Highlighting the fields on focus */
+    transition: all 0.3s ease;
+}
+
+/* Button Styles */
+.button {
+    background-color: var(--secondary-color);
+    border: none;
+    color: white;
+    border-radius: 25px;
+    padding: 12px 25px; /* Increased padding for top and bottom, smaller on sides */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px; /* Slightly smaller font */
+    margin: 10px 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    width: 45%; /* Buttons side by side */
+    transform: scale(1); /* Default scale */
+}
+
+.button:hover {
+    background-color: #2980b9;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    transform: translateY(-2px); /* Subtle hover effect */
+}
+
+/* Animation for Button on Click */
+.button:active {
+    transform: scale(0.95); /* Button click animation */
+}
+
+/* Register Button */
+.registerbtn {
+    background-color: #4169E1;
+    color: white;
+    border-radius: 25px;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.registerbtn:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+/* Enhanced Heading Style */
+.bg-text h1 {
+    font-size: 26px;
+    color: #f39c12; /* Gold color for the heading */
+    font-family: 'Verdana', sans-serif;
+    margin-bottom: 20px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .topnav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .topnav a {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .topnav .logged-in {
+        right: auto;
+        position: static;
+        margin-top: 1rem;
+    }
+
+    .bg-text {
+        width: 70%; /* Adjusting for smaller screens */
+    }
+
+    .button {
+        width: 100%; /* Button size adjusts for smaller screens */
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+    <a href="/maps">Map</a>
+    <a href="/fare">Fare</a>
+    <a href="/contactus">Contact us</a>
+    <a href="/complaint">Complaint</a>
+    <a href="/vehicleexit/">Vehicle-Exit</a>
+    <a href="/">Log Out</a>
+    
+    <div class="logged-in">You are currently Logged in</div>
+</div>
+
+<div class="bg-image"></div>
+
+{% if n == 1 %}
+<div class="bg-text">
+  <form action="/vehicleentry/" method="post">
+    {% csrf_token %}
+    <h1>Please Provide Vehicle Details</h1>
+    <hr>
+    <h2 style="font-size:16px; color:white;">Vehicle Registration Number: </h2>
+    <input type="text" name="vnumber" id="vnumber" placeholder="Enter Vehicle Number"><br>
+
+    <h2 style="font-size:16px; color:white;">Vehicle Type: </h2>
+    <select class="selectBox" name="vtype" id="vtype">
+      <option value="type">Select Vehicle Type</option>
+      <option value="two">Two-Wheeler</option>
+      <option value="three">Three-Wheeler</option>
+      <option value="four">Four-Wheeler</option>
+    </select><br>
+
+    <h2 style="font-size:16px; color:white;">Contact Number: </h2>
+    <input type="tel" name="contactno" id="contactno" placeholder="Enter Your Contact Number">
+
+    <br><hr>
+    <div style="display: flex; justify-content: space-between; gap: 10px;">
+        <button type="submit" class="button">Submit</button>
+        <button type="submit" formaction="/printentry/" class="button">Print Receipt</button>
+    </div>
+  </form>
+
+  {% if submitted %}
+  <div style="background-color: #4CAF50; color: white; padding: 10px; border-radius: 5px; margin-top: 20px; text-align: center;">
+    Details submitted successfully! click on Print Receipt to know details!!
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
+</body>
+</html>

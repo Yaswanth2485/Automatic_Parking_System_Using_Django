@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurePark - Vehicle Fare</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-color: #333;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --glass-background: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar */
+        .topnav {
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 1rem 2rem;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .topnav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .topnav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .topnav a:hover::after {
+            width: 100%;
+        }
+
+        .topnav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .topnav a.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .topright {
+            position: absolute;
+            top: 28px;
+            right: 10px;
+            font-size: 1px;
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 900px;
+            background: #34495e; /* Darker background for better contrast */
+            color: #f0e68c; /* Light color for text */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-top: 20px; /* Added margin to create space between navbar and table */
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+
+        th,
+        td {
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid black;
+            color: #FFFFE0;
+            text-align: center;
+        }
+
+        th {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        thead th {
+            background-color: #55608f;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .topnav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .topnav a {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 0.5rem;
+            }
+
+            .container {
+                width: 95%;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="topnav">
+        <a href="/maps">Map</a>
+        <a href="/complaint">Complaint</a>
+        <a href="/vehicleexit/">Vehicle-Exit</a>
+        <a href="/vehicleentry/">Vehicle-Entry</a>
+        <a href="/">Log Out</a>
+    </div>
+
+    <div class="container">
+        <h1 style="text-align:center; padding-top:50px;color:#F0E68C;font-family:cursive">Fare of Vehicles for parking</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Type of Vehicle</th>
+                    <th>Four Wheelers (Car etc)</th>
+                    <th>Three Wheelers (Auto, Battery Rickshaw etc)</th>
+                    <th>Two Wheelers (Scooter, Bike etc)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Upto 6 Hours</td>
+                    <td>30</td>
+                    <td>20</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>Upto 12 Hours</td>
+                    <td>50</td>
+                    <td>35</td>
+                    <td>25</td>
+                </tr>
+                <tr>
+                    <td>More than 12 hours</td>
+                    <td>60</td>
+                    <td>40</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td>Monthly Charges</td>
+                    <td>1200</td>
+                    <td>900</td>
+                    <td>600</td>
+                </tr>
+                <tr>
+                    <td>Night Charges (Extra) (00:00Hrs to 05:00Hrs - Daily)</td>
+                    <td>60</td>
+                    <td>50</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td>Night Charges (Extra) (00:00Hrs to 05:00Hrs - Monthly)</td>
+                    <td>1200</td>
+                    <td>900</td>
+                    <td>600</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All User Details</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-color: #333;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .topnav {
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .topnav div a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .topnav div a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .topnav div a:hover::after {
+            width: 100%;
+        }
+
+        .topnav div a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .topnav div a.active {
+            background-color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.5s ease-out;
+            overflow: hidden;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .action-btn i {
+            font-size: 1.2rem;
+        }
+
+        .edit-btn {
+            background-color: var(--secondary-color);
+        }
+
+        .edit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .messages {
+            margin-bottom: 1rem;
+        }
+
+        .success {
+            color: #27ae60;
+        }
+
+        .error {
+            color: #e74c3c;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--secondary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: loading 1s linear infinite;
+            margin: 2rem auto;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes loading {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="topnav">
+    <div>
+        <a href="/adminpage/">Admin Home</a>
+        <a href="/searchingveh/">Search</a>
+        <a href="/view_users/">Edit User</a>
+        <a href="/adminlogin/" class="active">Logout</a>
+    </div>
+    <div class="toplg">Admin View is Active</div>
+</div>
+
+<div class="loading-spinner" id="loadingSpinner"></div>
+
+<div class="container">
+    <h2>All User Details</h2>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Contact Number</th>
+                <th>Address</th>
+                <th>Question</th>
+                <th>Answer</th>
+                <th>Gender</th>
+                <th>DOB</th>
+                <th>Password</th>
+                <th>Confirm Password</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.mes_id }}</td>
+                    <td>{{ user.fname }}</td>
+                    <td>{{ user.lname }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.contactnumber }}</td>
+                    <td>{{ user.addressfor }}</td>
+                    <td>{{ user.ques }}</td>
+                    <td>{{ user.answer }}</td>
+                    <td>{{ user.gender }}</td>
+                    <td>{{ user.dob }}</td>
+                    <td>{{ user.password }}</td>
+                    <td>{{ user.passwordr }}</td>
+                    <td>
+                        <div class="action-btns">
+                            <a class="action-btn edit-btn" href="{% url 'edit_user' user.mes_id %}">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <form action="{% url 'delete_user' user.mes_id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="action-btn delete-btn" onclick="return confirm('Are you sure you want to delete this user?')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        window.addEventListener('load', function () {
+            loadingSpinner.style.display = 'none';
+        });
+
+        // Simulate loading spinner for 2 seconds
+        loadingSpinner.style.display = 'block';
+        setTimeout(() => {
+            loadingSpinner.style.display = 'none';
+        }, 2000);
+    });
+</script>
+
+<!-- Include FontAwesome icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-links a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .registerbtn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+            align-self: center;
+            width: 20%;
+        }
+
+        .registerbtn:hover {
+            background-color: #2980b9;
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 1.5rem;
+            border-radius: 5px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        
+        <div class="navbar-links">
+            
+            <a href="/maps">Map</a>
+            <a href="/fare">Fare</a>
+            <a href="/complaint">Complaint</a>
+            <a href="/vehicleentry/">Vehicle-Entry</a>
+            <a href="/vehicleexit/">Vehicle-Exit</a>
+            <a href="/">Log Out</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="contact-header">
+            <h1>Contact Us</h1>
+            <p>We'd love to hear from you. Send us a message!</p>
+        </div>
+
+        <form action="/contactus/" method="post" class="contact-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>
+            </div>
+            
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+            </div>
+            
+            <div class="form-group">
+                <input type="tel" class="form-control" name="contactno" id="contactno" placeholder="Contact Number" required>
+            </div>
+            
+            <div class="form-group">
+                <textarea class="form-control" rows="5" name="question" id="question" placeholder="Your Message" required></textarea>
+            </div>
+            
+            <button type="submit" class="registerbtn">Send Message</button>
+        </form>
+
+        
+    </div>
+
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.contact-form');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Basic form validation
+                const name = document.getElementById('name');
+                const email = document.getElementById('email');
+                const contactno = document.getElementById('contactno');
+                const question = document.getElementById('question');
+                
+                if (!name.value || !email.value || !contactno.value || !question.value) {
+                    alert('Please fill out all fields');
+                    return;
+                }
+                
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email.value)) {
+                    alert('Please enter a valid email address');
+                    return;
+                }
+                
+                // Phone number validation (simple example)
+                const phoneRegex = /^\d{10}$/;
+                if (!phoneRegex.test(contactno.value.replace(/\D/g,''))) {
+                    alert('Please enter a valid 10-digit phone number');
+                    return;
+                }
+                
+                // If all validations pass
+                alert('Thank you for your message! We will get back to you soon.');
+                form.reset();
+            });
+        });
+    </script> -->
+</body>
+</html>

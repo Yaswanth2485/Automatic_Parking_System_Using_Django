@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navigation Bar */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-color: #333;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --glass-background: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+        }
+
+        .topnav {
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: flex-start;  /* Align items to the left */
+            align-items: center;
+            padding: 1rem 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .topnav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .topnav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .topnav a:hover::after {
+            width: 100%;
+        }
+
+        .topnav a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .topnav a.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .topright {
+            position: absolute;
+            top: 6px;
+            right: 10px;
+            font-size: 1px;
+        }
+
+        .background {
+            background-color: #B0E0E6;
+            color: black;
+        }
+
+        /* Gallery Styles */
+        .column {
+            float: left;
+            width: 20%;
+            padding: 10px;
+        }
+
+        .column img {
+            float: left;
+            border: 3px solid #000000;
+            opacity: 0.8;
+            cursor: pointer;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,18), 0 6px 20px 0 rgba(0,0,0,0.30);
+        }
+
+        .column img:hover {
+            opacity: 1;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .container {
+            position: relative;
+            border: 3px solid #000000;
+            display: none;
+            background-color: #B0E0E6;
+            color: black;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,18), 0 6px 20px 0 rgba(0,0,0,0.30);
+        }
+
+        #imgtext {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            color: black;
+            font-size: 20px;
+        }
+
+        .closebtn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: black;
+            font-size: 35px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="topnav">
+            <a href="/fare">Fare</a>
+            <a href="/complaint">Complaint</a>
+            <a href="/vehicleexit/">Vehicle-Exit</a>
+            <a href="/vehicleentry/">Vehicle-Entry</a>
+            <a href="/">Log Out</a>
+        </div>
+
+        <div style="text-align:center">
+            <h2>Maps and Image gallery</h2>
+            <p>Click on the images below:</p>
+        </div>
+
+        <!-- The four columns -->
+        <div class="row">
+            <div class="column">
+                <img width="40" height="200" src="https://i.ibb.co/s6JYNxs/map1.png" alt="Parking Floors" style="width:100%" onclick="myFunction(this);">
+            </div>
+            <div class="column">
+                <img width="40" height="200" src="https://i.ibb.co/Lg84YFb/map2.jpg" alt="Top View" style="width:100%" onclick="myFunction(this);">
+            </div>
+            <div class="column">
+                <img width="40" height="200" src="https://i.ibb.co/LJwxHTJ/map3.jpg" alt="Two wheeler parking" style="width:100%" onclick="myFunction(this);">
+            </div>
+            <div class="column">
+                <img width="40" height="200" src="https://i.ibb.co/ZSPxKrb/map5.jpg" alt="Overall view" style="width:100%" onclick="myFunction(this);">
+            </div>
+            <div class="column">
+                <img width="40" height="200" src="https://i.ibb.co/YbBSbnw/map6.jpg" alt="Space Allotment for vehicles" style="width:100%" onclick="myFunction(this);">
+            </div>
+        </div>
+        
+        <div class="container">
+            <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
+            <img id="expandedImg" style="width:100%">
+            <div id="imgtext"></div>
+        </div>
+
+        <script>
+            function myFunction(imgs) {
+                var expandImg = document.getElementById("expandedImg");
+                var imgText = document.getElementById("imgtext");
+                expandImg.src = imgs.src;
+                imgText.innerHTML = imgs.alt;
+                expandImg.parentElement.style.display = "block";
+            }
+        </script>
+    </div>
+</body>
+</html>

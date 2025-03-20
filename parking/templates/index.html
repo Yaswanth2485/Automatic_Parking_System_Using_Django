@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Parking System Using Django </title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-color: #333;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --glass-background: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .topnav {
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .topnav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .topnav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .topnav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .topnav a:hover::after {
+            width: 100%;
+        }
+
+        .topnav a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .topnav a.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .bg-container {
+            position: relative;
+            height: calc(100vh - 80px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("https://login.gov/assets/img/login-gov-288x288.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            filter: blur(8px);
+            z-index: 1;
+        }
+
+        .login-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            background-color: var(--glass-background);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            z-index: 2;
+            animation: fadeIn 0.5s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+
+        .login-container h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        .messages {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .alert {
+            color: #e74c3c;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .topnav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .topnav a {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 0.5rem;
+            }
+
+            .login-container {
+                width: 90%;
+                margin: 0 auto;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="topnav">
+        <div class="topnav-links">
+            <a class="active" href="/">Home</a>
+           
+            
+            <a href="/index/">User-login</a>
+            <a href="/signup/">SignUp</a>
+            <a href="/adminlogin/">Admin-Login</a>
+        </div>
+    </nav>
+
+    <div class="bg-container">
+        <div class="bg-image"></div>
+        <div class="login-container">
+            <h1>Automated Parking System: Login</h1>
+            <form class="login-form" action="" method="post">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit" class="login-btn">Login</button>
+                <a href="/forgot/" class="forgot-password">Forgot Password?</a>
+            </form>
+
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
