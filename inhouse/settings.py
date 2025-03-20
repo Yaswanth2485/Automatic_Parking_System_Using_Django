@@ -26,7 +26,7 @@ SECRET_KEY = '(c&hasaw)z9fnryd64s-ud^a$9%qz8nugs8p^suzm5j^jai+59'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.github.com]
 
 
 # Application definition
