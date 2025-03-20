@@ -6,7 +6,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Secret Key Management
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'your-default-secret-key')  # Replace default for security
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'nitya-2024-mama')  # Replace default for security
 
 # Debug
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
